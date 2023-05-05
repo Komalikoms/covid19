@@ -1,0 +1,16 @@
+.question-label {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 32px;
+}
+.answer-label {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #007bff;
+  line-height: 32px;
+}

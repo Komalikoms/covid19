@@ -1,0 +1,58 @@
+.stats {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+}
+.red {
+  color: #ff073a;
+}
+.green {
+  color: #28a745;
+}
+.blue {
+  color: #007bff;
+}
+.ash {
+  color: #6c757d;
+}
+.order-list {
+  padding-left: 0;
+  list-style-type: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.count {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+}
+.case-list {
+  width: 180px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  border-radius: 5px;
+}
+.cases-pic {
+  width: 30px;
+}
+.confirm-class {
+  background-color: #331427;
+}
+.active-class {
+  background-color: #132240;
+}
+.recover-class {
+  background-color: #182829;
+}
+.decease-class {
+  background-color: #212230;
+}

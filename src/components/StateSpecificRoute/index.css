@@ -1,0 +1,66 @@
+.state-specific-container {
+  background-color: #161625;
+}
+.state-specific-containers {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.state-label {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 28px;
+  color: #0ea5e9;
+  background: rgba(2, 132, 199, 0.16);
+  border-radius: 32px;
+  padding: 7px;
+  margin-bottom: 0;
+  text-align: center;
+}
+.state-time {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #cbd5e1;
+  margin-top: 8px;
+}
+.tested {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 0;
+  color: #94a3b8;
+  text-align: right;
+}
+.tested-count {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  color: #94a3b8;
+  margin-top: 8px;
+}
+.banner-card {
+  display: flex;
+  justify-content: space-between;
+}
+.home-contain {
+  padding: 15px 50px;
+}
+.top-districts-heading {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 48px;
+  color: #ff073a;
+  text-align: left;
+}
+.district-list {
+  display: flex;
+  flex-wrap: wrap;
+}

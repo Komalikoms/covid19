@@ -1,0 +1,95 @@
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.home-container {
+  background: #161625;
+  margin: 30px 80px 50px 80px;
+}
+.input-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #94a3b8;
+  width: 600px;
+  height: 50px;
+  background-color: #2f2f43;
+  padding: 0 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.search-input {
+  background-color: transparent;
+  border-width: 0;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  height: 24px;
+  padding-left: 10px;
+  outline: none;
+}
+.search-container {
+  font-size: 16px;
+}
+.states-heading {
+  color: #f8fafc;
+}
+.asc-desc-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 200px;
+  min-width: 150px;
+}
+.sort-icon {
+  margin-left: 10px;
+}
+.table-heading-container {
+  display: flex;
+  color: white;
+  justify-content: space-between;
+  align-items: center;
+}
+.table-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+}
+.column-para {
+  min-width: 100px;
+  width: 200px;
+  text-align: right;
+}
+.main-table-container {
+  background: #1e1e30;
+  min-width: 800px;
+  border: 2px solid #475569;
+  border-radius: 10px;
+}
+.border-bottom {
+  border-bottom: 1px solid #475569;
+}
+.search-unorder-list {
+  padding-left: 0;
+}
+.input-main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.sort-button-icon {
+  background-color: transparent;
+  border-width: 0;
+}
+.homes {
+  background-color: #161625;
+}
+.stateDataTable {
+  background-color: #1e1e30;
+}

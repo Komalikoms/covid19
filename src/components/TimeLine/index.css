@@ -1,0 +1,74 @@
+.bar-chart {
+  color: transparent;
+}
+.spread-trends {
+  color: #cbd5e1;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 48px;
+}
+.para {
+  font-size: 12px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  text-align: right;
+}
+.confirm {
+  color: #ff073a;
+}
+.active {
+  color: #007bff;
+}
+.recovered {
+  color: #27a243;
+}
+.decease {
+  color: #6c757d;
+}
+.tested {
+  color: #9673b9;
+}
+.confirm-container {
+  background: #331427;
+  border-radius: 12px;
+  width: 1000px;
+  padding-top: 10px;
+  padding-right: 20px;
+  margin: 20px;
+}
+.active-container {
+  background: #132240;
+
+  border-radius: 12px;
+  width: 1000px;
+  padding-top: 10px;
+  padding-right: 20px;
+  margin: 20px;
+}
+.recover-container {
+  border-radius: 12px;
+  width: 1000px;
+  padding-top: 10px;
+  padding-right: 20px;
+  margin: 20px;
+  background: #182829;
+}
+.decease-container {
+  border-radius: 12px;
+  width: 1000px;
+  padding-top: 10px;
+  padding-right: 20px;
+  margin: 20px;
+  background: #1c1c2b;
+}
+.tested-container {
+  border-radius: 12px;
+  width: 1000px;
+  padding-top: 10px;
+  padding-right: 20px;
+  margin: 20px;
+  background: #230f41;
+}

@@ -1,0 +1,23 @@
+.react-icons {
+  display: flex;
+  justify-content: center;
+  color: #cbd5e1;
+}
+.footer-para {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #94a3b8;
+}
+.footer-icon {
+  font-size: 60px;
+  margin: 20px;
+}
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}

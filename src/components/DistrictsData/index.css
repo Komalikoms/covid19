@@ -1,0 +1,18 @@
+.district-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #94a3b8;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  width: 220px;
+  margin-right: 30px;
+}
+.activeClass {
+  font-size: 20px;
+  padding: 0 15px 0 0;
+}
+.districtName {
+  font-size: 15px;
+}
