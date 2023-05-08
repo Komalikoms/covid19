@@ -200,13 +200,11 @@ class Home extends Component {
         const population = covidData[keyName].meta.population
           ? covidData[keyName].meta.population
           : 0
-
         let stateName
         const name = statesList.find(state => state.state_code === keyName)
         if (name !== undefined) {
           stateName = name.state_name
         }
-
         resultList.push({
           stateCode: keyName,
           name: stateName,
@@ -219,13 +217,17 @@ class Home extends Component {
         })
       }
     })
-    return resultList
+    return resultList.sort((a, b) => {
+      const x = a.name
+      const y = b.name
+
+      return x > y ? 1 : -1
+    })
   }
 
   onChangeSearchInput = event => {
     if (event.target.value === '') {
       this.setState({
-        searchInput: event.target.value,
         showSearchList: false,
         showStatesList: true,
         showInitialTable: true,
@@ -287,6 +289,9 @@ class Home extends Component {
     } = this.state
 
     stateData = this.convertObjectsDataIntoListItemsUsingForInMethod(covidData)
+    stateData.shift()
+
+    console.log(stateData)
 
     const updatedStatesList = statesList.map(eachState => ({
       stateCode: eachState.state_code,
@@ -319,28 +324,26 @@ class Home extends Component {
               onChange={this.onChangeSearchInput}
             />
           </div>
-          <div testid="searchResultsUnorderedList">
-            <ul className="search-unorder-list">
-              {showSearchList &&
-                filteredSearchList.map(eachState => (
-                  <SearchList
-                    key={eachState.stateCode}
-                    searchedList={eachState}
-                  />
-                ))}
-            </ul>
-          </div>
+          <ul
+            className="search-unorder-list"
+            testid="searchResultsUnorderedList"
+          >
+            {showSearchList &&
+              filteredSearchList.map(eachState => (
+                <SearchList
+                  key={eachState.stateCode}
+                  searchedList={eachState}
+                />
+              ))}
+          </ul>
         </div>
 
-        {showStatesList && <HomeCaseCardItem cardDetails={sum} />}
+        <ul>{showStatesList && <HomeCaseCardItem cardDetails={sum} />}</ul>
 
-        <div className="main-table-container ">
+        <div className="main-table-container " testid="stateWiseCovidDataTable">
           {showStatesList && (
             <div className="table-container border-bottom">
-              <div
-                className="asc-desc-container"
-                testid="stateWiseCovidDataTable"
-              >
+              <div className="asc-desc-container">
                 <p className="states-heading">States/UT</p>
                 <button
                   type="button"
@@ -350,7 +353,6 @@ class Home extends Component {
                 >
                   <FcGenericSortingAsc />
                 </button>
-
                 <button
                   type="button"
                   className="sort-button-icon"
@@ -360,11 +362,7 @@ class Home extends Component {
                   <FcGenericSortingDesc />
                 </button>
               </div>
-
-              <div
-                className="table-heading-container"
-                testid="stateWiseCovidDataTable"
-              >
+              <div className="table-heading-container">
                 <p className="column-para">Confirmed</p>
                 <p className="column-para">Active</p>
                 <p className="column-para">Recovered</p>
@@ -374,39 +372,33 @@ class Home extends Component {
             </div>
           )}
           <div>
-            <div testid="stateWiseCovidDataTable">
-              <ul className="stateDataTable">
-                {showInitialTable &&
-                  stateData.map(eachState => (
-                    <StateCardItem
-                      key={eachState.stateCode}
-                      eachStateData={eachState}
-                    />
-                  ))}
-              </ul>
-            </div>
-            <div testid="stateWiseCovidDataTable">
-              <ul className="stateDataTable">
-                {showAscStateList &&
-                  sortedStateData.map(eachState => (
-                    <StateCardItem
-                      key={eachState.stateCode}
-                      eachStateData={eachState}
-                    />
-                  ))}
-              </ul>
-            </div>
-            <div testid="stateWiseCovidDataTable">
-              <ul className="stateDataTable">
-                {showDescStateList &&
-                  sortedStateData.map(eachState => (
-                    <StateCardItem
-                      key={eachState.stateCode}
-                      eachStateData={eachState}
-                    />
-                  ))}
-              </ul>
-            </div>
+            <ul className="stateDataTable">
+              {showInitialTable &&
+                stateData.map(eachState => (
+                  <StateCardItem
+                    key={eachState.stateCode}
+                    eachStateData={eachState}
+                  />
+                ))}
+            </ul>
+            <ul className="stateDataTable">
+              {showAscStateList &&
+                sortedStateData.map(eachState => (
+                  <StateCardItem
+                    key={eachState.stateCode}
+                    eachStateData={eachState}
+                  />
+                ))}
+            </ul>
+            <ul className="stateDataTable">
+              {showDescStateList &&
+                sortedStateData.map(eachState => (
+                  <StateCardItem
+                    key={eachState.stateCode}
+                    eachStateData={eachState}
+                  />
+                ))}
+            </ul>
           </div>
         </div>
       </div>
@@ -416,7 +408,7 @@ class Home extends Component {
   render() {
     const {isLoading, showStatesList} = this.state
     return (
-      <div className="homes">
+      <ul className="homes">
         <Header />
         <main className="home-container">
           {isLoading ? (
@@ -428,7 +420,7 @@ class Home extends Component {
           )}
           <div>{showStatesList && <Footer />}</div>
         </main>
-      </div>
+      </ul>
     )
   }
 }

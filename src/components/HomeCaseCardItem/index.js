@@ -4,7 +4,7 @@ const HomeCaseCardItem = props => {
   const {cardDetails} = props
   const {confirmed, active, recovered, deceased} = cardDetails
   return (
-    <ul className="order-list">
+    <div className="order-list">
       <li className="list-card" testid="countryWideConfirmedCases">
         <p className="stats red">Confirmed</p>
         <img
@@ -44,7 +44,7 @@ const HomeCaseCardItem = props => {
         />
         <p className="ash count">{deceased}</p>
       </li>
-    </ul>
+    </div>
   )
 }
 export default HomeCaseCardItem

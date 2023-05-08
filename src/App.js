@@ -9,13 +9,8 @@ import NotFound from './components/NotFound'
 const App = () => (
   <Switch>
     <Route exact path="/" component={Home} />
-    <Route
-      exact
-      path="/covid19-state-wise-data/state/:stateCode"
-      component={StateSpecificRoute}
-    />
+    <Route exact path="/state/:stateCode" component={StateSpecificRoute} />
     <Route exact path="/about" component={About} />
-
     <Route component={NotFound} />
   </Switch>
 )

@@ -8,10 +8,7 @@ const SearchList = props => {
   const {stateCode, stateName} = searchedList
 
   return (
-    <Link
-      to={`/covid19-state-wise-data/state/${stateCode}`}
-      className="link-item"
-    >
+    <Link to={`/state/${stateCode}`} className="link-item">
       <li className="searched-container">
         <p className="stateName-container">{stateName}</p>
         <div className="stateCode-container">

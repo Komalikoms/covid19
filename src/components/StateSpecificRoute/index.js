@@ -359,23 +359,21 @@ class StateSpecificRoute extends Component {
             showDeceasedCases={showDeceasedCases}
             showRecoveredCases={showRecoveredCases}
           />
+
           <h1 className="top-districts-heading">Top Districts</h1>
-          <div testid="topDistrictsUnorderedList">
-            {activeCaseClass && (
-              <ul className="district-list">
-                {sortedArray.map(eachDistrict => (
-                  <DistrictsData
-                    key={eachDistrict.districtName}
-                    districtsDetails={eachDistrict}
-                    showConfirmedCases={showConfirmedCases}
-                    showActiveCases={showActiveCases}
-                    showRecoveredCases={showRecoveredCases}
-                    showDeceasedCases={showDeceasedCases}
-                  />
-                ))}
-              </ul>
-            )}
-          </div>
+          <ul className="district-list" testid="topDistrictsUnorderedList">
+            {activeCaseClass &&
+              sortedArray.map(eachDistrict => (
+                <DistrictsData
+                  key={eachDistrict.districtName}
+                  districtsDetails={eachDistrict}
+                  showConfirmedCases={showConfirmedCases}
+                  showActiveCases={showActiveCases}
+                  showRecoveredCases={showRecoveredCases}
+                  showDeceasedCases={showDeceasedCases}
+                />
+              ))}
+          </ul>
 
           <TimeLine activeCaseClass={activeCaseClass} />
           <Footer />
