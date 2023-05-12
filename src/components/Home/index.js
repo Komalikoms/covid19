@@ -6,7 +6,6 @@ import Header from '../Header'
 import Loading from '../Loading'
 import StateCardItem from '../StateCardItem'
 import SearchList from '../SearchList'
-import HomeCaseCardItem from '../HomeCaseCardItem'
 
 import './index.css'
 import Footer from '../Footer'
@@ -158,19 +157,21 @@ const statesList = [
   },
 ]
 
-let stateData = []
-
 class Home extends Component {
   state = {
     isLoading: true,
-    covidData: {},
+    covidData: [],
     searchInput: '',
     showSearchList: false,
     showStatesList: true,
-    sortedStateData: stateData,
     showInitialTable: true,
     showAscStateList: false,
     showDescStateList: false,
+    sortedStateData: [],
+    totalConfirmed: 0,
+    totalRecovered: 0,
+    totalActive: 0,
+    totalDeceased: 0,
   }
 
   componentDidMount() {
@@ -179,50 +180,60 @@ class Home extends Component {
 
   getHomeData = async () => {
     const response = await fetch('https://apis.ccbp.in/covid19-state-wise-data')
-    const data = await response.json()
-    console.log(data)
 
-    this.setState({covidData: data, isLoading: false})
-  }
+    if (response.ok === true) {
+      const data = await response.json()
+      console.log(data)
 
-  convertObjectsDataIntoListItemsUsingForInMethod = covidData => {
-    const resultList = []
-    const keyNames = Object.keys(covidData)
+      let nationWideConfirmedCases = 0
+      let nationWideRecoveredCases = 0
+      let nationWideDeceasedCases = 0
+      let nationWideActiveCases = 0
 
-    keyNames.forEach(keyName => {
-      if (covidData[keyName]) {
-        const {total} = covidData[keyName]
-
-        const confirmed = total.confirmed ? total.confirmed : 0
-        const deceased = total.deceased ? total.deceased : 0
-        const recovered = total.recovered ? total.recovered : 0
-        const tested = total.tested ? total.tested : 0
-        const population = covidData[keyName].meta.population
-          ? covidData[keyName].meta.population
-          : 0
-        let stateName
-        const name = statesList.find(state => state.state_code === keyName)
-        if (name !== undefined) {
-          stateName = name.state_name
+      statesList.forEach(state => {
+        if (data[state.state_code]) {
+          const {total} = data[state.state_code]
+          nationWideConfirmedCases += total.confirmed ? total.confirmed : 0
+          nationWideDeceasedCases += total.deceased ? total.deceased : 0
+          nationWideRecoveredCases += total.recovered ? total.recovered : 0
         }
-        resultList.push({
-          stateCode: keyName,
-          name: stateName,
-          confirmed,
-          deceased,
-          recovered,
-          tested,
-          population,
-          active: confirmed - (deceased + recovered),
-        })
-      }
-    })
-    return resultList.sort((a, b) => {
-      const x = a.name
-      const y = b.name
+      })
 
-      return x > y ? 1 : -1
-    })
+      nationWideActiveCases +=
+        nationWideConfirmedCases -
+        nationWideDeceasedCases -
+        nationWideRecoveredCases
+
+      const stateData = statesList.map(eachState => ({
+        stateName: eachState.state_name,
+        stateCode: eachState.state_code,
+        confirmed: Object.keys(data)
+          .filter(state => state === eachState.state_code)
+          .map(e => data[e].total.confirmed),
+
+        deceased: Object.keys(data)
+          .filter(state => state === eachState.state_code)
+          .map(each => data[each].total.deceased),
+        recovered: Object.keys(data)
+          .filter(state => state === eachState.state_code)
+          .map(each => data[each].total.recovered),
+        tested: Object.keys(data)
+          .filter(state => state === eachState.state_code)
+          .map(each => data[each].total.tested),
+        population: Object.keys(data)
+          .filter(state => state === eachState.state_code)
+          .map(each => data[each].meta.population),
+      }))
+
+      this.setState({
+        covidData: stateData,
+        isLoading: false,
+        totalConfirmed: nationWideConfirmedCases,
+        totalDeceased: nationWideDeceasedCases,
+        totalRecovered: nationWideRecoveredCases,
+        totalActive: nationWideActiveCases,
+      })
+    }
   }
 
   onChangeSearchInput = event => {
@@ -259,7 +270,8 @@ class Home extends Component {
     })
 
   sortAscending = () => {
-    const sortedStateArray = this.sortByCaseKeyAsc(stateData, 'name')
+    const {covidData} = this.state
+    const sortedStateArray = this.sortByCaseKeyAsc(covidData, 'name')
     this.setState({
       sortedStateData: sortedStateArray,
       showInitialTable: false,
@@ -268,7 +280,8 @@ class Home extends Component {
   }
 
   sortDescending = () => {
-    const sortedStateArrayrev = this.sortByCaseKeyDesc(stateData, 'name')
+    const {covidData} = this.state
+    const sortedStateArrayrev = this.sortByCaseKeyDesc(covidData, 'name')
     this.setState({
       sortedStateData: sortedStateArrayrev,
       showInitialTable: false,
@@ -283,15 +296,16 @@ class Home extends Component {
       showSearchList,
       showStatesList,
       showInitialTable,
-      sortedStateData,
       showAscStateList,
       showDescStateList,
+      sortedStateData,
+      totalConfirmed,
+      totalRecovered,
+      totalActive,
+      totalDeceased,
     } = this.state
 
-    stateData = this.convertObjectsDataIntoListItemsUsingForInMethod(covidData)
-    stateData.shift()
-
-    console.log(stateData)
+    console.log(covidData)
 
     const updatedStatesList = statesList.map(eachState => ({
       stateCode: eachState.state_code,
@@ -301,15 +315,6 @@ class Home extends Component {
     const filteredSearchList = updatedStatesList.filter(eachSearch =>
       eachSearch.stateName.toLowerCase().includes(searchInput.toLowerCase()),
     )
-
-    const getUpdated = (a, b) => ({
-      confirmed: a.confirmed + b.confirmed,
-      deceased: a.deceased + b.deceased,
-      recovered: a.recovered + b.recovered,
-      active: a.active + b.active,
-    })
-
-    const sum = stateData.reduce(getUpdated)
 
     return (
       <div className="container">
@@ -337,8 +342,51 @@ class Home extends Component {
               ))}
           </ul>
         </div>
+        <ul>
+          {showStatesList && (
+            <div className="order-list">
+              <li className="list-card" testid="countryWideConfirmedCases">
+                <p className="stats red">Confirmed</p>
+                <img
+                  src="https://res.cloudinary.com/dnv6kesmt/image/upload/v1636521128/mini-project/check-mark_1_e83qpy.png"
+                  alt="country wide confirmed cases pic"
+                  className="cases-pic"
+                />
+                <p className="red count">{totalConfirmed}</p>
+              </li>
 
-        <ul>{showStatesList && <HomeCaseCardItem cardDetails={sum} />}</ul>
+              <li className="list-card" testid="countryWideActiveCases">
+                <p className="stats blue">Active</p>
+                <img
+                  src="https://res.cloudinary.com/dnv6kesmt/image/upload/v1636521130/mini-project/protection_1_roaazd.png"
+                  alt="country wide active cases pic"
+                  className="cases-pic"
+                />
+                <p className="blue count">{totalActive}</p>
+              </li>
+
+              <li className="list-card" testid="countryWideRecoveredCases">
+                <p className="stats green">Recovered</p>
+                <img
+                  src="https://res.cloudinary.com/dnv6kesmt/image/upload/v1636521130/mini-project/recovered_1_pz28bz.png"
+                  alt="country wide recovered cases pic"
+                  className="cases-pic"
+                />
+                <p className="green count">{totalRecovered}</p>
+              </li>
+
+              <li className="list-card" testid="countryWideDeceasedCases">
+                <p className="stats ash">Deceased</p>
+                <img
+                  src="https://res.cloudinary.com/dnv6kesmt/image/upload/v1636521128/mini-project/breathing_1_uxmvq9.png"
+                  alt="country wide deceased cases pic"
+                  className="cases-pic"
+                />
+                <p className="ash count">{totalDeceased}</p>
+              </li>
+            </div>
+          )}
+        </ul>
 
         <div className="main-table-container " testid="stateWiseCovidDataTable">
           {showStatesList && (
@@ -371,16 +419,18 @@ class Home extends Component {
               </div>
             </div>
           )}
+
+          <ul className="stateDataTable">
+            {showInitialTable &&
+              covidData.map(eachState => (
+                <StateCardItem
+                  key={eachState.stateCode}
+                  eachStateData={eachState}
+                />
+              ))}
+          </ul>
+
           <div>
-            <ul className="stateDataTable">
-              {showInitialTable &&
-                stateData.map(eachState => (
-                  <StateCardItem
-                    key={eachState.stateCode}
-                    eachStateData={eachState}
-                  />
-                ))}
-            </ul>
             <ul className="stateDataTable">
               {showAscStateList &&
                 sortedStateData.map(eachState => (
@@ -390,6 +440,8 @@ class Home extends Component {
                   />
                 ))}
             </ul>
+          </div>
+          <div>
             <ul className="stateDataTable">
               {showDescStateList &&
                 sortedStateData.map(eachState => (

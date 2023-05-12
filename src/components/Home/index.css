@@ -93,3 +93,10 @@
 .stateDataTable {
   background-color: #1e1e30;
 }
+.list-card {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
